@@ -51,21 +51,60 @@ const createTask = async (req, res) => {
 // ===========================
 // Get All Tasks
 // ===========================
-
 const getTasks = async (req, res) => {
 
     try {
 
-        const tasks = await Task.find({
+        const {
+            search,
+            status,
+            priority,
+            page = 1,
+            limit = 5,
+            sort = "createdAt"
+        } = req.query;
+
+        const query = {
             user: req.user._id
-        })
-        .sort({
-            createdAt: -1
-        });
+        };
+
+        // Search
+        if (search) {
+            query.title = {
+                $regex: search,
+                $options: "i"
+            };
+        }
+
+        // Filter Status
+        if (status) {
+            query.status = status;
+        }
+
+        // Filter Priority
+        if (priority) {
+            query.priority = priority;
+        }
+
+        const tasks = await Task.find(query)
+            .sort({
+                [sort]: -1
+            })
+            .skip((page - 1) * limit)
+            .limit(Number(limit));
+
+        const totalTasks = await Task.countDocuments(query);
 
         res.status(200).json({
-            count: tasks.length,
+
+            totalTasks,
+
+            currentPage: Number(page),
+
+            totalPages: Math.ceil(totalTasks / limit),
+
             tasks
+
         });
 
     } catch (error) {
@@ -131,8 +170,47 @@ const updateTask = async (req, res) => {
 
 };
 
+// ===========================
+// Delete Task
+// ===========================
+const deleteTask = async (req, res) => {
+
+    try {
+
+        const task = await Task.findById(req.params.id);
+
+        if (!task) {
+            return res.status(404).json({
+                message: "Task not found"
+            });
+        }
+
+        // Ownership Check
+        if (task.user.toString() !== req.user._id.toString()) {
+            return res.status(403).json({
+                message: "You are not authorized to delete this task"
+            });
+        }
+
+        await task.deleteOne();
+
+        res.status(200).json({
+            message: "Task deleted successfully"
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
     createTask,
     getTasks,
-    updateTask
+    updateTask,
+    deleteTask
 };
