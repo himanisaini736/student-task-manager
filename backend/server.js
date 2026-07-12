@@ -20,10 +20,12 @@ app.use(express.json());
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 
 // Routing to appropriate functions
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/tasks", taskRoutes);
 
 app.get("/", (req, res) => {
     res.send("Student Task Manager Backend Running 🚀");
