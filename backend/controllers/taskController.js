@@ -81,6 +81,12 @@ const getTasks = async (req, res) => {
             query.status = status;
         }
 
+        if (priority != "High" || priority != "Medium" || priority != "Low") {
+             return res.status(400).json({
+                message: "Priority is invalid"
+            });
+        }
+
         // Filter Priority
         if (priority) {
             query.priority = priority;
