@@ -10,7 +10,6 @@ function Login() {
 
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-
     const { login } = useAuth();
 
     const {
