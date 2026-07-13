@@ -96,7 +96,7 @@ function AddTaskForm({ onTaskCreated }) {
                 disabled={loading}
                 className="mt-5 bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700"
             >
-                {loading ? "Creating..." : "Add Task"}
+                {loading ? "Creating..." : "Create Task"}
             </button>
         </form>
     );
