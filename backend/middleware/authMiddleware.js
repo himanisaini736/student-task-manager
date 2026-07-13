@@ -30,7 +30,7 @@ const protect = async (req, res, next) => {
         } catch (error) {
 
             return res.status(401).json({
-                message: "You are pagal insan ... Send me a valid token"
+                message: "Token is invalid"
             });
 
         }
