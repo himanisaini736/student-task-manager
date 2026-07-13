@@ -11,6 +11,8 @@ import AddTaskForm from "../components/AddTaskForm";
 import EditTaskForm from "../components/EditTaskForm";
 
 import { deleteTask } from "../services/taskService";
+import Navbar from "../components/Navbar";
+import StatsCard from "../components/StatsCard";
 
 function Dashboard() {
     const [search, setSearch] = useState("");
@@ -29,11 +31,13 @@ function Dashboard() {
 
     const [editingTask, setEditingTask] = useState(null);
 
+    const totalTasks = tasks.length;
+
     const pending = tasks.filter(
         task => task.status === "Pending"
     ).length;
 
-    const progress = tasks.filter(
+    const inProgress = tasks.filter(
         task => task.status === "In Progress"
     ).length;
 
@@ -120,53 +124,38 @@ function Dashboard() {
     return (
 
         <div className="min-h-screen bg-gray-100">
-            <div className="flex justify-between items-center p-6 bg-white shadow">
-                <h1 className="text-3xl font-bold">
-                    Welcome, {user?.name}
-                </h1>
+            <Navbar />
 
-                <button
-                    onClick={handleLogout}
-                    className="bg-red-500 text-white px-4 py-2 rounded"
-                >
-                    Logout
-                </button>
-
-            </div>
-
-            <div className="p-6">
+            <div className="max-w-7xl mx-auto p-6">
 
                 <AddTaskForm
                     onTaskCreated={fetchTasks}
                 />
 
-                <div className="grid md:grid-cols-3 gap-5 my-6">
-                    <div className="bg-yellow-100 p-5 rounded-lg">
-                        <h2 className="text-xl font-bold">
-                            Pending
-                        </h2>
-                        <p className="text-3xl mt-2">
-                            {pending}
-                        </p>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                    <StatsCard
+                        title="Total Tasks"
+                        count={totalTasks}
+                        bgColor="bg-gray-100"
+                    />
 
-                    <div className="bg-blue-100 p-5 rounded-lg">
-                        <h2 className="text-xl font-bold">
-                            In Progress
-                        </h2>
-                        <p className="text-3xl mt-2">
-                            {progress}
-                        </p>
-                    </div>
+                    <StatsCard
+                        title="Pending"
+                        count={pending}
+                        bgColor="bg-yellow-100"
+                    />
 
-                    <div className="bg-green-100 p-5 rounded-lg">
-                        <h2 className="text-xl font-bold">
-                            Completed
-                        </h2>
-                        <p className="text-3xl mt-2">
-                            {completed}
-                        </p>
-                    </div>
+                    <StatsCard
+                        title="In Progress"
+                        count={inProgress}
+                        bgColor="bg-blue-100"
+                    />
+
+                    <StatsCard
+                        title="Completed"
+                        count={completed}
+                        bgColor="bg-green-100"
+                    />
                 </div>
 
                 <input

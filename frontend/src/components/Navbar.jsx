@@ -1,38 +1,49 @@
-import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-    const { user, logout } = useAuth();
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
-    const navigate = useNavigate();
+  return (
+    <nav className="bg-blue-600 text-white shadow-md">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        {/* Logo */}
+        <div>
+          <h1 className="text-2xl font-bold">
+            📋 Student Task Manager
+          </h1>
+        </div>
 
-    const handleLogout = () => {
-        logout();
-        navigate("/");
-    };
+        {/* Right Side */}
+        <div className="flex items-center gap-4">
 
-    return (
+          <div className="hidden sm:block">
+            <p className="text-sm opacity-80">
+              Welcome
+            </p>
 
-        <nav className="bg-blue-600 text-white px-8 py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-bold">
-                Student Task Manager
-            </h1>
+            <p className="font-semibold">
+              {user?.name}
+            </p>
+          </div>
 
-            <div className="flex items-center gap-5">
-                <span>
-                    {user?.name}
-                </span>
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition"
+          >
+            Logout
+          </button>
 
-                <button
-                    onClick={handleLogout}
-                    className="bg-red-500 px-4 py-2 rounded"
-                >
-                    Logout
-                </button>
-            </div>
-        </nav>
-    );
+        </div>
+      </div>
+    </nav>
+  );
 }
 
 export default Navbar;
