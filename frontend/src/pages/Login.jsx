@@ -48,7 +48,7 @@ function Login() {
             >
 
                 <h1 className="text-3xl font-bold mb-6 text-center">
-                    Student Task Manager
+                    Task Manager
                 </h1>
 
                 <input
