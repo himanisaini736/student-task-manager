@@ -14,6 +14,13 @@ import { deleteTask } from "../services/taskService";
 import Navbar from "../components/Navbar";
 import StatsCard from "../components/StatsCard";
 
+import {
+    FaTasks,
+    FaClock,
+    FaSpinner,
+    FaCheckCircle,
+} from "react-icons/fa";
+
 function Dashboard() {
     const [search, setSearch] = useState("");
     const debouncedSearch = useDebounce(search);
@@ -33,15 +40,15 @@ function Dashboard() {
 
     const totalTasks = tasks.length;
 
-    const pending = tasks.filter(
+    const pendingTasks = tasks.filter(
         task => task.status === "Pending"
     ).length;
 
-    const inProgress = tasks.filter(
+    const inProgressTasks = tasks.filter(
         task => task.status === "In Progress"
     ).length;
 
-    const completed = tasks.filter(
+    const completedTasks = tasks.filter(
         task => task.status === "Completed"
     ).length;
 
@@ -123,7 +130,7 @@ function Dashboard() {
 
     return (
 
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-slate-100">
             <Navbar />
 
             <div className="max-w-7xl mx-auto p-6">
@@ -136,25 +143,29 @@ function Dashboard() {
                     <StatsCard
                         title="Total Tasks"
                         count={totalTasks}
-                        bgColor="bg-gray-100"
+                        icon={<FaTasks />}
+                        bgClass="bg-gray-100"
                     />
 
                     <StatsCard
                         title="Pending"
-                        count={pending}
-                        bgColor="bg-yellow-100"
+                        count={pendingTasks}
+                        icon={<FaClock />}
+                        bgClass="bg-yellow-100"
                     />
 
                     <StatsCard
                         title="In Progress"
-                        count={inProgress}
-                        bgColor="bg-blue-100"
+                        count={inProgressTasks}
+                        icon={<FaSpinner />}
+                        bgClass="bg-blue-100"
                     />
 
                     <StatsCard
                         title="Completed"
-                        count={completed}
-                        bgColor="bg-green-100"
+                        count={completedTasks}
+                        icon={<FaCheckCircle />}
+                        bgClass="bg-green-100"
                     />
                 </div>
 
