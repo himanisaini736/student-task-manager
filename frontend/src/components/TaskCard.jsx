@@ -1,17 +1,17 @@
-function TaskCard({ task }) {
+function TaskCard({ task, onEdit, onDelete }) {
 
     return (
+        <div className="bg-blue-100 shadow rounded-lg p-5">
 
-        <div className="bg-white shadow rounded-lg p-5 border">
             <h2 className="text-xl font-semibold">
                 {task.title}
             </h2>
 
-            <p className="text-gray-600 mt-2">
-                {task.description || "No description"}
+            <p className="mt-2 text-gray-600">
+                {task.description}
             </p>
 
-            <div className="mt-4 flex justify-between">
+            <div className="mt-3 flex justify-between">
                 <span className="text-blue-600 font-medium">
                     {task.status}
                 </span>
@@ -21,6 +21,21 @@ function TaskCard({ task }) {
                 </span>
             </div>
 
+            <div className="mt-3 flex justify-between">
+                <button
+                    onClick={() => onEdit(task)}
+                    className="bg-yellow-500 text-white px-4 py-2 rounded"
+                >
+                    Edit
+                </button>
+
+                <button
+                    onClick={() => onDelete(task._id)}
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                >
+                    Delete
+                </button>
+            </div>
         </div>
     );
 }
