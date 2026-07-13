@@ -11,12 +11,28 @@ function TaskCard({ task, onEdit, onDelete }) {
                 {task.description}
             </p>
 
+            <p className="text-sm text-gray-500 mt-3">
+                Due:
+                {
+                    task.dueDate
+                        ? new Date(task.dueDate).toLocaleDateString()
+                        : "No Due Date"
+                }
+            </p>
+
             <div className="mt-3 flex justify-between">
                 <span className="text-blue-600 font-medium">
                     {task.status}
                 </span>
 
-                <span className="text-red-500 font-medium">
+                <span
+                    className={`px-3 py-1 rounded text-white ${task.priority === "High"
+                            ? "bg-red-500"
+                            : task.priority === "Medium"
+                                ? "bg-yellow-500"
+                                : "bg-green-500"
+                        }`}
+                >
                     {task.priority}
                 </span>
             </div>
