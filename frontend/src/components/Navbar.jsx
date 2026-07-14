@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-function Navbar() {
+function Navbar({ onCreateTask }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -32,6 +32,12 @@ function Navbar() {
               {user?.name}
             </p>
           </div>
+         <button
+    onClick={onCreateTask}
+    className="..."
+>
+    + Create Task
+</button>
 
           <button
             onClick={handleLogout}

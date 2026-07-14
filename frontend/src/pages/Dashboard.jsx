@@ -20,6 +20,7 @@ import {
     FaSpinner,
     FaCheckCircle,
 } from "react-icons/fa";
+import AddTaskModal from "../components/AddTaskModal";
 
 function Dashboard() {
     const [search, setSearch] = useState("");
@@ -51,6 +52,11 @@ function Dashboard() {
     const completedTasks = tasks.filter(
         task => task.status === "Completed"
     ).length;
+    const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+    
+    console.log("Modal:", showAddTaskModal);
+
+
 
     useEffect(() => {
         fetchTasks();
@@ -131,14 +137,13 @@ function Dashboard() {
     return (
 
         <div className="min-h-screen bg-slate-100">
-            <Navbar />
+            <Navbar
+    onCreateTask={() => setShowAddTaskModal(true)}
+/>
 
             <div className="max-w-7xl mx-auto p-6">
 
-                <AddTaskForm
-                    onTaskCreated={fetchTasks}
-                />
-
+               
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
                     <StatsCard
                         title="Total Tasks"
