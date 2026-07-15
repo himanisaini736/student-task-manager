@@ -282,6 +282,12 @@ function Dashboard() {
                         onTaskUpdated={fetchTasks}
                     />
                 )}
+                {showAddTaskModal && (
+    <AddTaskModal
+        onClose={() => setShowAddTaskModal(false)}
+        onTaskCreated={fetchTasks}
+    />
+)}
 
             </div>
         </div>
