@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const uploadToCloudinary = require("../utils/uploadToCloudinary");
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -29,6 +30,7 @@ const registerUser = async (req, res) => {
             });
         }
 
+
         // Check existing user
         const existingUser = await User.findOne({ email });
 
@@ -38,27 +40,53 @@ const registerUser = async (req, res) => {
             });
         }
 
+
+        // Upload profile image if provided
+        let profileImage = "";
+
+        if (req.file) {
+
+            const result = await uploadToCloudinary(req.file.buffer);
+
+            profileImage = result.secure_url;
+
+        }
+
+
         // Hash Password
         const salt = await bcrypt.genSalt(10);
 
         const hashedPassword = await bcrypt.hash(password, salt);
 
+
         // Save User
         const user = await User.create({
+
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            profileImage
+
         });
 
+
         res.status(201).json({
+
             message: "User Registered Successfully",
+
             token: generateToken(user._id),
+
             user: {
+
                 id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                profileImage: user.profileImage
+
             }
+
         });
+
 
     } catch (error) {
 
@@ -117,12 +145,12 @@ const loginUser = async (req, res) => {
             message: "Login Successful",
 
             token: generateToken(user._id),
-
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email
-            }
+user: {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    profileImage: user.profileImage
+}
 
         });
 
@@ -135,10 +163,48 @@ const loginUser = async (req, res) => {
     }
 
 };
+// =========================
+// Update Profile Image
+// =========================
+const updateProfileImage = async (req, res) => {
+    try {
+
+        if (!req.file) {
+            return res.status(400).json({
+                message: "Please select an image"
+            });
+        }
+
+        const result = await uploadToCloudinary(req.file.buffer);
+
+        const user = await User.findByIdAndUpdate(
+            req.user._id,
+            {
+                profileImage: result.secure_url
+            },
+            {
+                new: true
+            }
+        );
+
+        res.status(200).json({
+            message: "Profile image updated successfully",
+            profileImage: user.profileImage
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+};
 
 module.exports = {
 
     registerUser,
-    loginUser
+    loginUser,
+    updateProfileImage
 
 };

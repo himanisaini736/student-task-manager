@@ -5,7 +5,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 
 // environments variables - load
-dotenv.config();
+require("dotenv").config();
 
 // Connect to Mongo DB 
 connectDB();
