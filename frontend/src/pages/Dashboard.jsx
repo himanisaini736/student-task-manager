@@ -136,7 +136,7 @@ function Dashboard() {
 
     return (
 
-        <div className="min-h-screen bg-slate-100">
+        <div className="min-h-screen bg-gray-100 px-6 py-6">
             <Navbar
     onCreateTask={() => setShowAddTaskModal(true)}
 />
@@ -149,50 +149,50 @@ function Dashboard() {
                         title="Total Tasks"
                         count={totalTasks}
                         icon={<FaTasks />}
-                        bgClass="bg-gray-100"
+                        bgClass="bg-gradient-to-r from-slate-50 to-slate-200"
                     />
 
                     <StatsCard
                         title="Pending"
                         count={pendingTasks}
                         icon={<FaClock />}
-                        bgClass="bg-yellow-100"
+                        bgClass="bg-gradient-to-r from-yellow-50 to-yellow-200"
                     />
 
                     <StatsCard
                         title="In Progress"
                         count={inProgressTasks}
                         icon={<FaSpinner />}
-                        bgClass="bg-blue-100"
+                       bgClass="bg-gradient-to-r from-sky-50 to-sky-200"
                     />
 
                     <StatsCard
                         title="Completed"
                         count={completedTasks}
                         icon={<FaCheckCircle />}
-                        bgClass="bg-green-100"
+                        bgClass="bg-gradient-to-r from-emerald-50 to-emerald-200"
                     />
                 </div>
 
                 <input
                     type="text"
-                    placeholder="Search Tasks"
+                    placeholder="🔍 Search tasks by title or description..."
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
                         setPage(1);
                     }}
-                    className="border p-3 rounded w-full mb-4"
+                   className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition mb-5"
                 />
 
-                <div className="grid md:grid-cols-3 gap-4 mb-5">
+                <div className="grid md:grid-cols-3 gap-5 mb-8">
                     <select
                         value={status}
                         onChange={(e) => {
                             setStatus(e.target.value);
                             setPage(1);
                         }}
-                        className="border p-3 rounded"
+                        className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
                     >
                         <option value="">All Status</option>
                         <option>Pending</option>
